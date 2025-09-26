@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import html2canvas from 'html2canvas';
 
 export default function HomePage() {
-  const [quote, setQuote] = useState('');
+  const [quote, setQuote] = useState("");
   const [backgroundImage, setBackgroundImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
