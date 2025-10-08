@@ -34,6 +34,23 @@ export default function HomePage() {
     setLoading(false);
   };
 
+  const downloadQuoteImage = async () => {
+    const node = document.getElementById('quote-container');
+  
+    if (!node) return;
+  
+    try {
+      const canvas = await html2canvas(node, { useCORS: true });
+      const dataUrl = canvas.toDataURL('image/png');
+  
+      const link = document.createElement('a');
+      link.download = 'motivational-quote.png';
+      link.href = dataUrl;
+      link.click();
+    } catch (err) {
+      console.error('Failed to generate image:', err);
+    }
+  };
 
 
   return (
@@ -80,7 +97,19 @@ export default function HomePage() {
             {loading ? 'Generating...' : 'Generate'}
           </button>
 
+          <button
+          onClick={downloadQuoteImage}
+          className="px-10 py-4 bg-green-500 text-white font-bold rounded-full hover:bg-green-400 shadow-lg transition-transform transform hover:scale-105"
+          disabled={!quote}
+          >
+          Save as Image
+        </button>
+
         </div>
+
+        
+
+
       </div>
     </div>
   );

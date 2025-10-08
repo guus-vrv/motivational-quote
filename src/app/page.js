@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import html2canvas from 'html2canvas';
 
+
+
 export default function HomePage() {
   const [quote, setQuote] = useState('');
   const [backgroundImage, setBackgroundImage] = useState(null);
@@ -35,6 +37,26 @@ export default function HomePage() {
   };
 
 
+  const downloadQuoteImage = async () => {
+    const node = document.getElementById('quote-container');
+    if (!node) return;
+  
+    try {
+      const canvas = await html2canvas(node, { useCORS: true, backgroundColor: null });
+      const dataUrl = canvas.toDataURL('image/png');
+  
+      const link = document.createElement('a');
+      link.download = 'motivational-quote.png';
+      link.href = dataUrl;
+      link.click();
+    } catch (err) {
+      console.error('Failed to generate image:', err);
+    }
+  };
+  
+
+
+
 
   return (
     <div id="quote-container" className="relative flex flex-col items-center justify-center min-h-screen p-8 font-sans overflow-hidden">
@@ -49,7 +71,9 @@ export default function HomePage() {
       )}
 
       {/* Black overlay */}
-      <div className="absolute inset-0 bg-black/60"></div>
+      <div className="absolute inset-0" style={{ backgroundColor: 'rgba(0,0,0,0.6)' }}></div>
+
+
 
       {/* Text and buttons */}
       <div className="relative z-10 flex flex-col items-center">
@@ -63,22 +87,38 @@ export default function HomePage() {
               transition={{ duration: 0.6 }}
               className="text-center max-w-2xl mb-8"
             >
-              <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 leading-snug">
-              &quot;{quote.split("||")[0]}&quot;
-              </h1>
-              <p className="text-xl text-gray-300">— {quote.split("||")[1]}</p>
+             <h1 className="text-3xl md:text-5xl font-bold mb-4 leading-snug" style={{ color: '#FFFFFF' }}>
+  &quot;{quote.split("||")[0]}&quot;
+</h1>
+<p className="text-xl" style={{ color: '#D1D5DB' }}>— {quote.split("||")[1]}</p>
+
+             
+
+
             </motion.div>
           )}
         </AnimatePresence>
 
         <div className="flex gap-4">
           <button
-            onClick={fetchQuote}
-            className="px-10 py-4 bg-yellow-500 text-gray-900 font-bold rounded-full hover:bg-yellow-400 shadow-lg transition-transform transform hover:scale-105"
-            disabled={loading}
-          >
-            {loading ? 'Generating...' : 'Generate'}
-          </button>
+  onClick={fetchQuote}
+  style={{ backgroundColor: '#F59E0B', color: '#111827' }} // yellow
+  className="px-10 py-4 font-bold rounded-full shadow-lg transition-transform transform hover:scale-105"
+>
+  Generate
+</button>
+
+<button
+  onClick={downloadQuoteImage}
+  style={{ backgroundColor: '#10B981', color: '#FFFFFF' }} // green
+  className="px-10 py-4 font-bold rounded-full shadow-lg transition-transform transform hover:scale-105"
+  disabled={!quote}
+>
+  Save as Image
+</button>
+
+
+
 
         </div>
       </div>
