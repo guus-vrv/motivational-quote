@@ -64,9 +64,9 @@ export default function HomePage() {
               className="text-center max-w-2xl mb-8"
             >
               <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 leading-snug">
-                "{quote.split("||")[0]}"
+              &quot;{quote.split("||")[0]}&quot;
               </h1>
-              <p className="text-xl text-gray-300">— {quote.split('||')[1]}</p>
+              <p className="text-xl text-gray-300">— {quote.split("||")[1]}</p>
             </motion.div>
           )}
         </AnimatePresence>
